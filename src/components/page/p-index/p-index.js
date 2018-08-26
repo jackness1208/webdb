@@ -5,7 +5,9 @@ import tpl from './p-index.pug';
 import './p-index.scss';
 import vDemo from '../../widget/v-demo/v-demo.vue';
 import fData from '../../../js/data.js';
-import db from '../../../js/lib/db.js';
+// import db from '../../../js/lib/webDB.js';
+// import db from '../../../js/lib/indexedDB.js';
+import db from '../../../js/lib/localstorage.js';
 
 
 export default Vue.extend({
@@ -31,7 +33,7 @@ export default Vue.extend({
     const add = function (done) {
       db.getItem('total').then((d) => {
         vm.addDemoLog(`getItem total done ${d}`);
-        let iData = d;
+        let iData = Number(d);
         if (!iData) {
           iData = 1;
         } else {
@@ -50,7 +52,7 @@ export default Vue.extend({
 
     add(function check() {
       db.getItem('total').then((d) => {
-        if (d < 200) {
+        if (+d < 200) {
           add(check);
         }
       });
